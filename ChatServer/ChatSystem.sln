@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerCore", "ServerCore\ServerCore.csproj", "{84D290C3-736A-4AB4-8E53-4B009724B6FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerCoreTests", "ServerCoreTests\ServerCoreTests.csproj", "{1BB5B2D2-3A6F-4351-B183-6E1462A5AF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBox", "ToolBox\ToolBox.csproj", "{995AE5F5-9308-4C63-8F7C-2C11533BD571}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84D290C3-736A-4AB4-8E53-4B009724B6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84D290C3-736A-4AB4-8E53-4B009724B6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84D290C3-736A-4AB4-8E53-4B009724B6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84D290C3-736A-4AB4-8E53-4B009724B6FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB5B2D2-3A6F-4351-B183-6E1462A5AF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB5B2D2-3A6F-4351-B183-6E1462A5AF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB5B2D2-3A6F-4351-B183-6E1462A5AF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB5B2D2-3A6F-4351-B183-6E1462A5AF2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{995AE5F5-9308-4C63-8F7C-2C11533BD571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{995AE5F5-9308-4C63-8F7C-2C11533BD571}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{995AE5F5-9308-4C63-8F7C-2C11533BD571}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{995AE5F5-9308-4C63-8F7C-2C11533BD571}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
