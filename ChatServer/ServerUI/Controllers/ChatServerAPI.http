@@ -1,13 +1,17 @@
 ### 기본 변수 (필요 시 포트/스킴 수정)
-@baseUrl = https://localhost:7032
+@ChatServerUrl = https://localhost:7032/ChatServer
+@ChatRoomUrl = https://localhost:7032/ChatRoom
+@MessageUrl = https://localhost:7032/Message
 
 ### 테스트용 계정 변수
 @email = john@example.com
 @password = mypassword123
 
+
+
 ### 1) 사용자 생성
 # POST /ChatServer/create-user
-POST {{baseUrl}}/ChatServer/create-user
+POST {{ChatServerUrl}}/create-user
 Content-Type: application/json
 
 {
@@ -17,14 +21,59 @@ Content-Type: application/json
 
 > {% client.global.set("accessToken", response.body.access) %}
 
+
+
 ### 2) 방 생성
 # POST /ChatServer/create-room
-# 주의: ChatServer.CreateRooms() 내부에서 accessToken.ExtractSubject()를 사용하므로
-# 유효한 JWT AccessToken이 필요합니다. 아직 토큰 발급 API가 노출되어 있지 않으면
-# 아래 {{accessToken}} 자리에 실제 유효 토큰 문자열을 넣어 테스트하세요.
-POST {{baseUrl}}/ChatServer/create-room
+POST {{ChatServerUrl}}/create-room
 Content-Type: application/json
 
 {
   "accessToken": {{accessToken}}
 }
+
+
+### 3) 방 가져오기
+# POST /ChatServer/get-my-rooms
+POST {{ChatServerUrl}}/get-my-rooms
+Content-Type: application/json
+
+{{accessToken}}
+
+> {% client.global.set("createdRoomId", response.body[0].rawValue) %}
+
+
+
+
+### 4) 메시지 생성
+# POST /ChatRoom/create-message
+POST {{ChatRoomUrl}}/create-message/{{createdRoomId}}
+Content-Type: application/json
+
+{
+  "body": "Hello World!"
+}
+
+
+### 5) 메시지 가져오기
+# GET /ChatRoom/get-all-messages
+GET {{ChatRoomUrl}}/get-all-messages/{{createdRoomId}}
+Content-Type: application/json
+
+> {% client.global.set("createdMessageId", response.body[0].rawValue) %}
+
+
+### 6) 메시지 본문 수정
+# POST /Message/set-body/아이디
+POST {{MessageUrl}}/set-body/{{createdMessageId}}
+Content-Type: application/json
+
+"Hello World!??"
+
+
+### 7) 메시지 본문 조회
+# GET /Message/get-body/아이디
+GET {{MessageUrl}}/get-body/{{createdMessageId}}
+Content-Type: application/json
+
+

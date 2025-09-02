@@ -13,7 +13,6 @@ public class ChatServer
     
     // state
     internal ID Id { get; } = ID.Random();
-    
     private const string Owner = "mandoo";
     private readonly SymmerticKey _symmerticKey = SymmerticKey.Random();
     
@@ -55,6 +54,27 @@ public class ChatServer
 
     
     public HashSet<ChatRoom.ID> Rooms { get; } = [];
+
+    public List<ChatRoom.ID>? GetMyRooms(AccessToken accessToken)
+    {
+        if (accessToken.IsValid() is false)
+        {
+            return null;
+        }
+
+        var userEmail = accessToken.ExtractSubject();
+        if (userEmail is null)
+        {
+            return null;
+        }
+
+        return Rooms
+            .Select(r => r.Ref())
+            .Where(r => r is not null)
+            .Where(r => r!.Users.Contains(userEmail))
+            .Select(r => r!.Id)
+            .ToList();
+    }
     
     public Queue<CreateRoom> RoomTickets { get; private set; } = [];
     public void AddTicket(CreateRoom ticket) => RoomTickets.Enqueue(ticket);

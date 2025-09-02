@@ -23,7 +23,7 @@ public class Message
     public ChatRoom.CreateMessage Ticket { get; }
     public ChatRoom.ID Owner { get; }
     
-    public string Body { get; }
+    public string Body { get; set; }
     
     
     // action
@@ -44,6 +44,7 @@ public class Message
         // core
         public required Guid RawValue { get; init; }
 
+        public static ID With(Guid rawValue) => new ID { RawValue = rawValue };
         public static ID Random() => new ID { RawValue = Guid.NewGuid() };
 
         // operator

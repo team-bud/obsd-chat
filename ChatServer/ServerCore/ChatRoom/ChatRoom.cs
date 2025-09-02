@@ -6,7 +6,10 @@ namespace ServerCore;
 public class ChatRoom
 {
     // core
-    public ChatRoom(ChatServer.ID owner, ChatServer.CreateRoom ticket, string creatorEmail)
+    public ChatRoom(
+        ChatServer.ID owner, 
+        ChatServer.CreateRoom ticket, 
+        string creatorEmail)
     {
         Owner = owner;
         Users = new() { creatorEmail };
@@ -32,7 +35,6 @@ public class ChatRoom
     public void AddTicket(CreateMessage ticket) => Tickets.Enqueue(ticket);
     
     
-    
     // action
     public void CreateMessages()
     {
@@ -43,10 +45,10 @@ public class ChatRoom
             var messageRef = new Message(Id, ticket, ticket.Body);
             Messages.Add(messageRef.Id);
         }
+
+        Console.WriteLine($"Message created - {Messages.Count}");
     }
-
     
-
 
     // value
     public readonly record struct ID
@@ -54,6 +56,7 @@ public class ChatRoom
         // core
         public required Guid RawValue { get; init; }
 
+        public static ID With(Guid rawValue) => new ID { RawValue = rawValue };
         public static ID Random() => new ID { RawValue = Guid.NewGuid() };
 
         // operator
