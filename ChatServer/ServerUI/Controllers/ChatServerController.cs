@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ServerCore;
-using ToolBox;
+using ToolBox.JWT;
 
 namespace ServerUI.Controllers;
 
@@ -8,17 +8,27 @@ namespace ServerUI.Controllers;
 // Controller
 [ApiController]
 [Route("[controller]")]
-public class ChatServerController: ControllerBase
+public class ChatServerController(ChatServer chatServer) : ControllerBase
 {
-    [HttpGet]
-    public int GetSampleNumber()
+    // JSON Body: { "email": "test@test.com", "password": "1234" }
+    [HttpPost("create-user")]
+    public TokenSet? CreateUser([FromBody] ChatServer.CreateUser ticket)
     {
-        return 12345;
+        chatServer.AddTicket(ticket);
+        chatServer.CreateUsers(); // 티켓 처리
+
+        var tokenSet = chatServer.GetAuthToken(ticket.Email, ticket.Password);
+
+        return tokenSet;
     }
 
-    [HttpGet("{id}")]
-    public string GetSampleNumber(int id)
+    // JSON Body: { "accessToken": { "rawValue": "..." } }
+    [HttpPost("create-room")]
+    public IActionResult CreateRoom([FromBody] ChatServer.CreateRoom ticket)
     {
-        return $"item is {id}!!";
+        chatServer.AddTicket(ticket);
+        chatServer.CreateRooms(); // 티켓 처리
+        
+        return Ok(new { message = "Room created", ticket.Id, roomCount = chatServer.Rooms.Count });
     }
 }

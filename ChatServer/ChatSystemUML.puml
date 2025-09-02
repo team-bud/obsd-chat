@@ -1,0 +1,64 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide empty members
+
+class ChatServer {
+  .. State ..
+  ~ Id: ID {get}
+  - _symmerticKey: SymmerticKey
+  + Users: HashSet<UserCard.ID> {get}
+  + UserTickets: Queue<CreateUser> {get; private set;}
+  + Rooms: HashSet<ChatRoom.ID> {get}
+  + RoomTickets: Queue<CreateRoom> {get; private set;}
+  .. Actions ..
+  + GetAuthToken(email: string, password: string): TokenSet?
+  + AddTicket(ticket: CreateUser): void
+  + AddTicket(ticket: CreateRoom): void
+  + CreateUsers(): void
+  + CreateRooms(): void
+}
+
+class ChatRoom {
+  .. State ..
+  ~ Id: ID {get}
+  ~ Owner: ChatServer.ID {get}
+  ~ Ticket: ChatServer.CreateRoom {get}
+  + Users: HashSet<string> {get}
+  + Messages: List<Message.ID> {get}
+  + Tickets: Queue<CreateMessage> {get}
+  .. Actions ..
+  + AddTicket(ticket: CreateMessage): void
+  + CreateMessages(): void
+}
+
+class UserCard {
+  .. State ..
+  + Id: ID {get}
+  - OwnerRef: ChatServer
+  + Email: string {get; set;}
+  + Passsword: string {get; set;}
+  + RefreshToken: string? {get; private set;}
+  .. Actions ..
+  + SetRefreshToken(accessToken: AccessToken, refreshToken: string): void
+  + RemoveUser(): void
+}
+
+class Message {
+  .. State ..
+  + Id: ID {get}
+  + Ticket: ChatRoom.CreateMessage {get}
+  + Owner: ChatRoom.ID {get}
+  + Body: string {get}
+  .. Actions ..
+  + RemoveMessage(): void
+}
+
+ChatServer "1" o-- "*" ChatRoom : manages
+ChatServer "1" o-- "*" UserCard : manages
+
+ChatRoom "1" o-- "*" UserCard : has participants
+ChatRoom "1" o-- "*" Message : contains
+
+Message "1" *-- "1" UserCard : sent by
+
+@enduml

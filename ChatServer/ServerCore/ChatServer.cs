@@ -84,6 +84,8 @@ public class ChatServer
             var userCardRef = new UserCard(this, ticket.Email, ticket.Password);
             Users.Add(userCardRef.Id);
         }
+        
+        Console.WriteLine($"현재 Users 수 : {Users.Count}");
     }
 
     public void CreateRooms()
@@ -103,6 +105,8 @@ public class ChatServer
             var chatRoomRef = new ChatRoom(Id, ticket, userEmail);
             Rooms.Add(chatRoomRef.Id);
         }
+        
+        Console.WriteLine($"현재 Room 수: {Rooms.Count}");
     }
     
     

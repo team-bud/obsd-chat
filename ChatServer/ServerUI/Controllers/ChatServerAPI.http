@@ -1,0 +1,30 @@
+### 기본 변수 (필요 시 포트/스킴 수정)
+@baseUrl = https://localhost:7032
+
+### 테스트용 계정 변수
+@email = john@example.com
+@password = mypassword123
+
+### 1) 사용자 생성
+# POST /ChatServer/create-user
+POST {{baseUrl}}/ChatServer/create-user
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+> {% client.global.set("accessToken", response.body.access) %}
+
+### 2) 방 생성
+# POST /ChatServer/create-room
+# 주의: ChatServer.CreateRooms() 내부에서 accessToken.ExtractSubject()를 사용하므로
+# 유효한 JWT AccessToken이 필요합니다. 아직 토큰 발급 API가 노출되어 있지 않으면
+# 아래 {{accessToken}} 자리에 실제 유효 토큰 문자열을 넣어 테스트하세요.
+POST {{baseUrl}}/ChatServer/create-room
+Content-Type: application/json
+
+{
+  "accessToken": {{accessToken}}
+}
