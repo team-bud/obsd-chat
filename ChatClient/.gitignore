@@ -1,0 +1,16 @@
+# Xcode
+## User settings
+xcuserdata/
+
+## Build generated
+build/
+DerivedData/
+.build/
+
+## Swift Package Manager
+/.swiftpm
+Package.resolved
+
+# Other
+.DS_Store
+*.swp
